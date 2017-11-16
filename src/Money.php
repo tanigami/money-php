@@ -98,7 +98,7 @@ class Money
     }
 
     /**
-     * @param self $other
+     * @param self $multiplier
      * @return self
      */
     public function multiply(float $multiplier): self
