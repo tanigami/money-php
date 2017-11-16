@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class Money
 {
     /**
-     * @var float
+     * @var int
      */
     private $amount;
 
@@ -17,19 +17,19 @@ class Money
     private $currency;
 
     /**
-     * @param float $amount
+     * @param int $amount
      * @param Currency $currency
      */
-    public function __construct(float $amount, Currency $currency)
+    public function __construct(int $amount, Currency $currency)
     {
         $this->amount = $amount;
         $this->currency = $currency;
     }
 
     /**
-     * @return float
+     * @return int
      */
-    public function amount(): float
+    public function amount(): int
     {
         return $this->amount;
     }
@@ -48,7 +48,7 @@ class Money
      */
     public function equals(self $other): bool
     {
-        return abs($this->amount - $other->amount()) < 1e-6 && $this->currency()->equals($other->currency());
+        return $this->amount === $other->amount() && $this->currency()->equals($other->currency());
     }
 
     /**
@@ -79,10 +79,38 @@ class Money
     }
 
     /**
-     * @param float $amount
+     * @param self $other
+     * @return self
+     */
+    public function sub(self $other): self
+    {
+        if (!$this->currency()->equals($other->currency())) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Money with different currency cannot be subtracted: %s, %s',
+                    $this->currency()->isoCode(),
+                    $other->currency()->isoCode()
+                )
+            );
+        }
+
+        return new self($this->amount() - $other->amount(), $this->currency());
+    }
+
+    /**
+     * @param self $other
+     * @return self
+     */
+    public function multiply(float $multiplier): self
+    {
+        return new self(floor($this->amount() * $multiplier), $this->currency());
+    }
+
+    /**
+     * @param int $amount
      * @return Money
      */
-    public function increaseAmountBy(float $amount): self
+    public function increaseAmountBy(int $amount): self
     {
         return new self($this->amount() + $amount, $this->currency());
     }
