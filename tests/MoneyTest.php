@@ -69,4 +69,30 @@ class HttpMethodTest extends TestCase
         $this->assertTrue($increasedMoney->equals(new Money(66666, Currency::usd())));
         $this->assertTrue($money->equals(new Money(12345, Currency::usd())));
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cannot increase by negative amount: -1
+     */
+    public function testIncreaseByNegativeAmountThrowsException()
+    {
+        (new Money(12345, Currency::usd()))->increaseAmountBy(-1);
+    }
+
+    public function testDecreaseByAmountIncreasesAmountWithourSideEffect()
+    {
+        $money = new Money(54321, Currency::usd());
+        $decreasedMoney = $money->decreaseAmountBy(12345);
+        $this->assertTrue($decreasedMoney->equals(new Money(41976, Currency::usd())));
+        $this->assertTrue($money->equals(new Money(54321, Currency::usd())));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cannot decrease by negative amount: -1
+     */
+    public function testDecreaseByNegativeAmountThrowsException()
+    {
+        (new Money(12345, Currency::usd()))->decreaseAmountBy(-1);
+    }
 }

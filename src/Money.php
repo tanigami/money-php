@@ -112,6 +112,33 @@ class Money
      */
     public function increaseAmountBy(int $amount): self
     {
+        if ($amount < 0) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Cannot increase by negative amount: %s',
+                    $amount
+                )
+            );
+        }
+
         return new self($this->amount() + $amount, $this->currency());
+    }
+
+    /**
+     * @param int $amount
+     * @return Money
+     */
+    public function decreaseAmountBy(int $amount): self
+    {
+        if ($amount < 0) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Cannot decrease by negative amount: %s',
+                    $amount
+                )
+            );
+        }
+
+        return new self($this->amount() - $amount, $this->currency());
     }
 }
