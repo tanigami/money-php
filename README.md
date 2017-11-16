@@ -1,25 +1,13 @@
-HTTP Methods in PHP
+Money
 =======================
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tanigami/http-method-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tanigami/http-method-php/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/tanigami/http-method-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/tanigami/http-method-php/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/tanigami/http-method-php/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tanigami/http-method-php/build-status/master)
 
-A value object representing HTTP methods in PHP.
 
-- GET
-- HEAD
-- POST 
-- PUT
-- DELETE
-- CONNECT
-- OPTIONS
-- TRACE
-- PATCH
+A value object representing money and currencies in PHP.
 
 ## Installation
 
 ```
-composer require tanigami/http-method-php
+composer require tanigami/money
 ```
 
 ## Usage
@@ -27,17 +15,20 @@ composer require tanigami/http-method-php
 ```php
 <?php
 
-use Tanigami\HttpMethod\HttpMethod;
+use Tanigami\Money\Currency;
+use Tanigami\Money\Money;
 
 // Instantiate via factory methods
-HttpMethod::get();
+$money = new Money(123.45, Currency::usd());
 
-// Compare objects
-HttpMethod::get()->equals(HttpMethod::get()); // => true
-HttpMethod::get()->equals(HttpMethod::post()); // => false
+// Compare moneys
+$money->equals(new Money(123.45, Currency::usd()); // => true
+$money->equals(new Money(543.21, Currency::usd()); // => false
+$money->equals(new Money(123.45, Currency::jpy()); // => false
 
-// Get string representation
-HttpMethod::get()->toString(); // => 'GET'
+// Duplicate
+$duplicatedMoney = $money->duplicate();
+$duplicatedMoney->equals($money); // => true
 ```
 
 
