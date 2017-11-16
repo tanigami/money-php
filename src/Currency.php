@@ -2353,4 +2353,12 @@ class Currency
     {
         return $this->isoCode;
     }
+
+    /**
+     * @return int
+     */
+    public function decimalPlaces(): int
+    {
+        return $this->decimalPlaces;
+    }
 }
