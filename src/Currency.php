@@ -900,11 +900,17 @@ class Currency
     private $isoCode;
 
     /**
+     * @var int
+     */
+    private $decimalPlaces;
+
+    /**
      * @param string $isoCode
      */
-    private function __construct(string $isoCode)
+    private function __construct(string $isoCode, int $decimalPlaces = 2)
     {
         $this->isoCode = $isoCode;
+        $this->decimalPlaces = $decimalPlaces;
     }
 
     /**
@@ -1488,7 +1494,7 @@ class Currency
      */
     public static function jpy(): self
     {
-        return new self(self::JPY);
+        return new self(self::JPY, 0);
     }
 
     /**
@@ -2096,7 +2102,7 @@ class Currency
      */
     public static function usd(): self
     {
-        return new self(self::USD);
+        return new self(self::USD, 2);
     }
 
     /**
